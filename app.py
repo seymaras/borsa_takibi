@@ -20,6 +20,7 @@ from functools import lru_cache
 from src.news_analyzer import NewsAnalyzer
 
 
+
 load_dotenv()
 
 app = Flask(__name__)
@@ -509,6 +510,8 @@ def get_live_data():
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
+
+
 @app.route('/get_borsa_data')
 def get_borsa_data():
     try:
@@ -544,6 +547,7 @@ def get_borsa_data():
         
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+
 
 # Program giriş noktası
 if __name__ == "__main__":

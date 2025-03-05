@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Giriş Yap - Finans Takip Uygulaması</title>
+    <style>
+      /* Genel Stiller */
+      body {
+        font-family: "Roboto", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9; /* Hafif gri */
+      }
+
+      .auth-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        padding: 1rem;
+      }
+
+      .auth-card {
+        background-color: #ffffff; /* Beyaz */
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+        padding: 2.5rem;
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+      }
+
+      h1 {
+        color: #333333; /* Koyu gri */
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        font-weight: 700;
+      }
+
+      .auth-icon {
+        margin-bottom: 1.5rem;
+        background-color: #f3f3f3; /* Açık gri */
+        border-radius: 50%;
+        padding: 20px;
+        display: inline-block;
+      }
+
+      .auth-icon svg {
+        width: 40px;
+        height: 40px;
+        color: #333333; /* Koyu gri */
+      }
+
+      .input-group {
+        position: relative;
+        margin-bottom: 1.5rem;
+      }
+
+      .input-group input {
+        width: calc(100% - 2rem);
+        padding: 1rem;
+        font-size: 1rem;
+        border: 1.5px solid #ccc; /* Hafif gri */
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        transition: border-color 0.3s ease, background-color 0.3s ease;
+      }
+
+      .input-group input:focus {
+        border-color: #999999; /* Orta gri */
+        background-color: #ffffff; /* Beyaz */
+      }
+
+      .input-group label {
+        position: absolute;
+        top: 50%;
+        left: 1rem;
+        transform: translateY(-50%);
+        font-size: 1rem;
+        color: #888888; /* Orta gri */
+        pointer-events: none;
+        transition: top 0.3s, font-size 0.3s, color 0.3s;
+      }
+
+      .input-group input:focus + label,
+      .input-group input:valid + label {
+        top: -8px;
+        font-size: 0.85rem;
+        color: #666666; /* Daha koyu gri */
+      }
+
+      .btn-primary {
+        background-color: #003b7a; /* Mavi */
+        color: #ffffff;
+        font-size: 1.1rem;
+        padding: 0.8rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s;
+      }
+
+      .btn-primary:hover {
+        background-color: #0056b3; /* Daha koyu mavi */
+      }
+
+      .btn-secondary {
+        background-color: #f1f1f1; /* Açık gri */
+        color: #333333;
+        font-size: 1rem;
+        padding: 0.8rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 1rem;
+        transition: background-color 0.3s;
+        text-decoration: none;
+      }
+
+      .btn-secondary:hover {
+        background-color: #e1e1e1; /* Daha koyu açık gri */
+      }
+
+      .auth-link {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        color: #666666; /* Orta gri */
+      }
+
+      .auth-link a {
+        color: #003b7a; /* Mavi */
+        text-decoration: none;
+      }
+
+      .auth-link a:hover {
+        text-decoration: underline;
+      }
+
+      /* Responsive Tasarım */
+      @media (max-width: 768px) {
+        .auth-card {
+          padding: 2rem;
+        }
+
+        h1 {
+          font-size: 1.8rem;
+        }
+
+        .input-group input,
+        .btn-primary,
+        .btn-secondary {
+          font-size: 0.95rem;
+        }
+      }
+
+      /* Google Giriş Butonu Stilleri */
+      .social-login {
+        margin-top: 20px;
+        border-top: 1px solid #eee;
+        padding-top: 20px;
+      }
+
+      .btn-google {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        background-color: #fff;
+        color: #757575;
+        border: 1px solid #ddd;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .btn-google:hover {
+        background-color: #f5f5f5;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .btn-google img {
+        width: 18px;
+        height: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="auth-container">
+      <div class="auth-card">
+        <h1>Giriş Yap</h1>
+        <div class="auth-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+            <polyline points="10 17 15 12 10 7"></polyline>
+            <line x1="15" y1="12" x2="3" y2="12"></line>
+          </svg>
+        </div>
+
+        <form method="post">
+          <div class="input-group">
+            <input type="text" name="username" id="username" required />
+            <label for="username">Kullanıcı Adı</label>
+          </div>
+          <div class="input-group">
+            <input type="password" name="password" id="password" required />
+            <label for="password">Şifre</label>
+          </div>
+          <button type="submit" class="btn-primary">Giriş Yap</button>
+        </form>
+
+        <!-- Google ile Giriş Butonu -->
+        <div class="social-login">
+          <a href="{{ url_for('auth.google_login') }}" class="btn-google">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+              alt="Google Logo"
+            />
+            Google ile Giriş Yap
+          </a>
+        </div>
+
+        <p class="auth-link">
+          Hesabınız yok mu? <a href="/register">Kayıt Ol</a>
+        </p>
+        <a href="/" class="btn-secondary">Ana Sayfa</a>
+      </div>
+    </div>
+  </body>
+</html>

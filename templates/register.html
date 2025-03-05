@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Kayıt Ol - Finans Takip Uygulaması</title>
+    <style>
+      /* Genel Stiller */
+      body {
+        font-family: "Roboto", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9; /* Açık gri ton */
+        color: #333; /* Nötr metin rengi */
+      }
+
+      .auth-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        padding: 1rem;
+        background-color: #f9f9f9;
+      }
+
+      .auth-card {
+        background-color: #ffffff; /* Beyaz arka plan */
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+        padding: 2.5rem;
+        width: 100%;
+        max-width: 420px;
+        text-align: center;
+      }
+
+      h1 {
+        color: #444; /* Hafif koyu gri metin */
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        font-weight: 700;
+      }
+
+      .auth-icon {
+        margin-bottom: 1.5rem;
+        background-color: #e0e0e0; /* Açık gri daire */
+        border-radius: 50%;
+        padding: 20px;
+        display: inline-block;
+      }
+
+      .auth-icon svg {
+        width: 40px;
+        height: 40px;
+        color: #555; /* Orta koyulukta simge */
+      }
+
+      .alert {
+        padding: 0.8rem;
+        margin-bottom: 1rem;
+        background-color: #f8d7da; /* Hafif kırmızı ton */
+        color: #721c24;
+        border-radius: 8px;
+        font-size: 0.9rem;
+      }
+
+      .input-group {
+        position: relative;
+        margin-bottom: 1.5rem;
+      }
+
+      .input-group input {
+        width: calc(100% - 2rem);
+        padding: 1rem;
+        font-size: 1rem;
+        border: 1.5px solid #ddd;
+        border-radius: 8px;
+        background-color: #fff;
+        transition: border-color 0.3s ease;
+      }
+
+      .input-group input:focus {
+        border-color: #888; /* Hafif koyu gri odak rengi */
+      }
+
+      .input-group label {
+        position: absolute;
+        top: 50%;
+        left: 1rem;
+        transform: translateY(-50%);
+        font-size: 1rem;
+        color: #aaa; /* Soluk gri */
+        pointer-events: none;
+        transition: top 0.3s, font-size 0.3s, color 0.3s;
+      }
+
+      .input-group input:focus + label,
+      .input-group input:valid + label {
+        top: -8px;
+        font-size: 0.85rem;
+        color: #555;
+      }
+
+      .btn-primary {
+        background-color: #003b7a; /* Hafif mavi */
+        color: #fff;
+        font-size: 1.1rem;
+        padding: 0.8rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s;
+      }
+
+      .btn-primary:hover {
+        background-color: #0056b3; /* Daha koyu mavi */
+      }
+
+      .btn-secondary {
+        background-color: #f1f1f1; /* Soluk gri */
+        color: #555;
+        font-size: 1rem;
+        padding: 0.8rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 1rem;
+        transition: background-color 0.3s;
+        text-decoration: none;
+      }
+
+      .btn-secondary:hover {
+        background-color: #e0e0e0;
+      }
+
+      .auth-link {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        color: #555;
+      }
+
+      .auth-link a {
+        color: #003b7a;
+        text-decoration: none;
+      }
+
+      .auth-link a:hover {
+        text-decoration: underline;
+      }
+
+      /* Responsive Tasarım */
+      @media (max-width: 768px) {
+        .auth-card {
+          padding: 2rem;
+        }
+
+        h1 {
+          font-size: 1.8rem;
+        }
+
+        .input-group input,
+        .btn-primary,
+        .btn-secondary {
+          font-size: 0.95rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="auth-container">
+      <div class="auth-card">
+        <h1>Kayıt Ol</h1>
+        <div class="auth-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+        <form action="{{ url_for('register') }}" method="POST">
+          <div class="input-group">
+            <input
+              type="text"
+              name="username"
+              placeholder="Kullanıcı Adı"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <input
+              type="password"
+              name="password"
+              placeholder="Şifre"
+              required
+            />
+          </div>
+          <button type="submit" class="btn-primary">Kayıt Ol</button>
+        </form>
+        <p class="auth-link">
+          Zaten hesabınız var mı?
+          <a href="{{ url_for('login') }}">Giriş Yapın</a>
+        </p>
+        <a href="/" class="btn-secondary">Ana Sayfa</a>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hisse Senedi Takip Uygulaması</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      :root {
+        --primary-color: #2c3e50;
+        --secondary-color: #34495e;
+        --accent-color: #f1c40f;
+        --text-color: #333;
+        --background-color: #ecf0f1;
+        --card-background: #fff;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        color: var(--text-color);
+        background-color: var(--background-color);
+      }
+
+      header {
+        background-color: var(--primary-color);
+        color: #fff;
+        padding: 1rem 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      header h1 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        font-weight: 300;
+      }
+
+      nav ul {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+      }
+
+      nav ul li {
+        margin: 0 1rem;
+      }
+
+      nav ul li a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+
+      nav ul li a:hover {
+        color: var(--accent-color);
+      }
+
+      main {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+      }
+
+      section {
+        background-color: var(--card-background);
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      h2 {
+        color: var(--primary-color);
+        border-bottom: 2px solid var(--accent-color);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+        font-weight: 300;
+      }
+
+      .form-group {
+        margin-bottom: 1rem;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: var(--secondary-color);
+      }
+
+      input[type="text"],
+      input[type="date"],
+      input[type="number"] {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+      }
+
+      input[type="text"]:focus,
+      input[type="date"]:focus,
+      input[type="number"]:focus {
+        outline: none;
+        border-color: var(--accent-color);
+      }
+
+      button {
+        background-color: var(--accent-color);
+        color: var(--primary-color);
+        border: none;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 500;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.1s ease;
+      }
+
+      button:hover {
+        background-color: #f39c12;
+        transform: translateY(-2px);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      .tahmin-sonuc,
+      .portfoy-liste {
+        margin-top: 2rem;
+      }
+
+      .tahmin-detay,
+      .portfoy-item {
+        background-color: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 4px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        transition: box-shadow 0.3s ease;
+      }
+
+      .tahmin-detay:hover,
+      .portfoy-item:hover {
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .tahmin-detay h3,
+      .portfoy-item h4 {
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+        font-weight: 500;
+      }
+
+      .fiyat-bilgileri,
+      .teknik-analiz {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+      }
+
+      .alert {
+        padding: 1rem;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+        font-weight: 500;
+      }
+
+      .alert-danger {
+        background-color: #fee2e2;
+        color: #b91c1c;
+        border: 1px solid #fecaca;
+      }
+
+      #grafik {
+        width: 100%;
+        height: 300px;
+        margin-top: 2rem;
+      }
+
+      .cikis {
+        text-align: center;
+        margin-top: 2rem;
+      }
+
+      .btn-cikis {
+        background-color: #e74c3c;
+        color: #fff;
+      }
+
+      .btn-cikis:hover {
+        background-color: #c0392b;
+      }
+
+      @media (max-width: 768px) {
+        header h1 {
+          font-size: 2rem;
+        }
+
+        nav ul {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        nav ul li {
+          margin: 0.5rem 0;
+        }
+
+        main {
+          padding: 0 1rem;
+        }
+
+        .fiyat-bilgileri,
+        .teknik-analiz {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .accuracy-metrics {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 20px;
+      }
+
+      .metrics-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .metric-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .progress {
+        flex: 1;
+        height: 20px;
+        background: #e9ecef;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .progress-bar {
+        height: 100%;
+        background: #007bff;
+        text-align: center;
+        color: white;
+        transition: width 0.3s ease;
+      }
+
+      .news-impact {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #dee2e6;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Hisse Senedi Takip Uygulaması</h1>
+      <nav>
+        <ul>
+          <li><a href="#tahminler">Tahminler</a></li>
+          <li><a href="#portfoy">Portföy</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">
+      {{ message }}
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
+
+    <main>
+      <section id="tahminler" data-lazy="tahminler">
+        <h2>Tahminler</h2>
+        <div class="tahmin-form">
+          <form id="tahminForm">
+            <div class="form-group">
+              <label for="symbol">Hisse Kodu:</label>
+              <input
+                type="text"
+                id="symbol"
+                required
+                placeholder="Örn: THYAO"
+              />
+            </div>
+            <div class="form-group">
+              <label for="target-date">Tahmin Tarihi:</label>
+              <input type="date" id="target-date" required />
+            </div>
+            <button type="submit">Tahmin Et</button>
+          </form>
+        </div>
+        <div id="tahminSonuc" class="tahmin-sonuc"></div>
+        <canvas id="grafik"></canvas>
+        <div class="accuracy-metrics" style="margin-top: 20px;">
+          <h3>Model Doğruluk Oranları</h3>
+          <div class="metrics-container">
+            <div class="metric-item">
+              <label>LSTM Modeli:</label>
+              <div class="progress">
+                <div
+                  class="progress-bar"
+                  id="lstmAccuracy"
+                  role="progressbar"
+                ></div>
+              </div>
+            </div>
+            <div class="metric-item">
+              <label>Random Forest Modeli:</label>
+              <div class="progress">
+                <div
+                  class="progress-bar"
+                  id="rfAccuracy"
+                  role="progressbar"
+                ></div>
+              </div>
+            </div>
+            <div class="metric-item">
+              <label>Birleşik Model:</label>
+              <div class="progress">
+                <div
+                  class="progress-bar"
+                  id="combinedAccuracy"
+                  role="progressbar"
+                ></div>
+              </div>
+            </div>
+          </div>
+          <div class="news-impact">
+            <h4>Haber Analizi Etkisi</h4>
+            <p>Tahmin üzerindeki etki: <span id="newsImpact">0</span>%</p>
+            <p>Duyarlılık skoru: <span id="sentimentScore">0</span></p>
+          </div>
+        </div>
+      </section>
+
+      <section id="portfoy" data-lazy="portfoy">
+        <h2>Portföy</h2>
+        <div class="portfoy-ekle">
+          <h3>Portföye Hisse Ekle</h3>
+          <form id="portfoyForm">
+            <div class="form-group">
+              <label for="portfoy_hisse">Hisse Kodu:</label>
+              <input type="text" id="portfoy_hisse" required />
+            </div>
+            <div class="form-group">
+              <label for="portfoy_miktar">Adet:</label>
+              <input type="number" id="portfoy_miktar" required min="1" />
+            </div>
+            <div class="form-group">
+              <label for="portfoy_fiyat">Alış Fiyatı:</label>
+              <input type="number" id="portfoy_fiyat" required step="0.01" />
+            </div>
+            <button type="submit">Portföye Ekle</button>
+          </form>
+        </div>
+        <div class="portfoy-liste">
+          <h3>Portföyüm</h3>
+          <div id="portfoyListesi"></div>
+        </div>
+      </section>
+
+      <div class="cikis">
+        <form action="/logout" method="POST">
+          <button type="submit" class="btn-cikis">Çıkış Yap</button>
+        </form>
+      </div>
+    </main>
+
+    <script>
+      let myChart;
+
+      document
+        .getElementById("tahminForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const symbol = document.getElementById("symbol").value.toUpperCase();
+          const date = document.getElementById("target-date").value;
+
+          document.getElementById("tahminSonuc").innerHTML = `
+              <div class="alert alert-info">Tahmin hesaplanıyor, lütfen bekleyin...</div>
+          `;
+
+          try {
+            console.log("Tahmin isteği gönderiliyor:", { symbol, date });
+
+            const response = await fetch("/predict", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                symbol: symbol,
+                date: date,
+              }),
+            });
+
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log("Tahmin sonucu:", data);
+
+            if (data.error) {
+              document.getElementById("tahminSonuc").innerHTML = `
+                  <div class="alert alert-danger">${data.error}</div>
+              `;
+              return;
+            }
+
+            updatePredictionResults(data);
+            updateChart(data);
+          } catch (error) {
+            console.error("Tahmin hatası:", error);
+            document.getElementById("tahminSonuc").innerHTML = `
+                <div class="alert alert-danger">Tahmin yapılırken bir hata oluştu: ${error.message}</div>
+            `;
+          }
+        });
+
+      function updatePredictionResults(data) {
+        document.getElementById("tahminSonuc").innerHTML = `
+            <div class="prediction-results">
+                <h3>${data.symbol} Tahmin Sonuçları</h3>
+                <div class="price-info">
+                    <div class="current-price">
+                        <span>Mevcut Fiyat:</span>
+                        <strong>${data.current_price.toFixed(2)} ₺</strong>
+                    </div>
+                    <div class="predicted-price">
+                        <span>Tahmini Fiyat:</span>
+                        <strong>${data.predicted_price.toFixed(2)} ₺</strong>
+                    </div>
+                    <div class="price-change ${
+                      data.price_change >= 0 ? "positive" : "negative"
+                    }">
+                        <span>Beklenen Değişim:</span>
+                        <strong>${data.price_change.toFixed(2)}%</strong>
+                    </div>
+                </div>
+            </div>
+        `;
+      }
+
+      function updateChart(data) {
+        const ctx = document.getElementById("grafik").getContext("2d");
+        if (myChart) {
+          myChart.destroy();
+        }
+
+        myChart = new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: ["Mevcut", "Tahmin"],
+            datasets: [
+              {
+                label: "Fiyat Değişimi",
+                data: [data.current_price, data.predicted_price],
+                borderColor: data.price_change >= 0 ? "#22c55e" : "#ef4444",
+                backgroundColor: "rgba(0, 0, 0, 0.1)",
+                borderWidth: 2,
+                tension: 0.1,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              title: {
+                display: true,
+                text: `${data.symbol} Fiyat Tahmini`,
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: false,
+              },
+            },
+          },
+        });
+      }
+
+      document
+        .getElementById("portfoyForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const symbol = document.getElementById("portfoy_hisse").value;
+          const quantity = document.getElementById("portfoy_miktar").value;
+          const price = document.getElementById("portfoy_fiyat").value;
+
+          try {
+            const response = await fetch("/add_to_portfolio", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                symbol: symbol,
+                quantity: parseInt(quantity),
+                purchase_price: parseFloat(price),
+              }),
+            });
+
+            const data = await response.json();
+            if (data.error) {
+              alert(data.error);
+            } else {
+              alert(data.message);
+              loadPortfolio();
+            }
+          } catch (error) {
+            alert("Hisse eklenirken bir hata oluştu");
+          }
+        });
+
+      async function loadPortfolio() {
+        try {
+          const response = await fetch("/get_portfolio");
+          const data = await response.json();
+
+          if (data.error) {
+            document.getElementById("portfoyListesi").innerHTML = (
+              <div class="alert alert-danger">${data.error}</div>
+            );
+            return;
+          }
+
+          const portfolioHtml = data.portfolio
+            .map((item) => (
+              <div class="portfoy-item">
+                <h4>${item.symbol}</h4>
+                <p>Adet: ${item.quantity}</p>
+                <p>Alış Fiyatı: ${item.purchase_price} TL</p>
+                <p>Güncel Fiyat: ${item.current_price} TL</p>
+                <p>
+                  Kar/Zarar: ${item.profit_loss} TL ($
+                  {item.profit_loss_percentage}%)
+                </p>
+              </div>
+            ))
+            .join("");
+
+          document.getElementById("portfoyListesi").innerHTML = portfolioHtml;
+        } catch (error) {
+          document.getElementById("portfoyListesi").innerHTML = (
+            <div class="alert alert-danger">Portföy bilgileri alınamadı</div>
+          );
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", loadPortfolio);
+
+      document.addEventListener("DOMContentLoaded", function() {
+        // Lazy loading için gözlemci oluştur
+        const observer = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const section = entry.target;
+              loadSectionData(section);
+              observer.unobserve(section);
+            }
+          });
+        });
+
+        // Gözlemlenecek bölümleri seç
+        const sections = document.querySelectorAll("section[data-lazy]");
+        sections.forEach((section) => observer.observe(section));
+      });
+
+      function loadSectionData(section) {
+        const sectionType = section.getAttribute("data-lazy");
+
+        switch (sectionType) {
+          case "tahminler":
+            loadTahminData();
+            break;
+          case "portfoy":
+            loadPortfolioData();
+            break;
+        }
+      }
+
+      function loadTahminData() {
+        // Tahmin verilerini yükle
+        fetch("/get_predictions")
+          .then((response) => response.json())
+          .then((data) => {
+            document.getElementById(
+              "tahminSonuc"
+            ).innerHTML = createPredictionHTML(data);
+          })
+          .catch((error) => console.error("Tahmin yükleme hatası:", error));
+      }
+
+      function loadPortfolioData() {
+        // Portföy verilerini yükle
+        fetch("/get_portfolio")
+          .then((response) => response.json())
+          .then((data) => {
+            document.getElementById(
+              "portfoyListesi"
+            ).innerHTML = createPortfolioHTML(data);
+          })
+          .catch((error) => console.error("Portföy yükleme hatası:", error));
+      }
+    </script>
+  </body>
+</html>

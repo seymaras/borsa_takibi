@@ -2,7 +2,7 @@
 
 Yapay zeka destekli borsa tahmin ve portföy yönetim uygulaması. BIST hisseleri için fiyat tahminleri yapın, teknik analizleri inceleyin ve portföyünüzü profesyonelce yönetin.
 
-## 🚀 Özellikler
+## Özellikler
 
 - **Akıllı Tahminler**: Makine öğrenimi ile gelecek fiyat tahminleri
 - **Teknik Analiz**: MA20, MA50, RSI göstergeleri ile detaylı analiz
@@ -10,7 +10,7 @@ Yapay zeka destekli borsa tahmin ve portföy yönetim uygulaması. BIST hisseler
 - **Görsel Grafikler**: İnteraktif fiyat ve gösterge grafikleri
 - **Kullanıcı Yönetimi**: Güvenli kayıt ve giriş sistemi
 
-## 🛠️ Teknolojiler
+## Teknolojiler
 
 - **Backend**: Python Flask
 - **Frontend**: HTML5, CSS3, JavaScript
@@ -18,7 +18,7 @@ Yapay zeka destekli borsa tahmin ve portföy yönetim uygulaması. BIST hisseler
 - **Veri Kaynağı**: Yahoo Finance API
 - **ML**: scikit-learn (RandomForestRegressor)
 
-## ⚙️ Kurulum
+## Kurulum
 
 ### Gereksinimler
 

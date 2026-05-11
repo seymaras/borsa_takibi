@@ -1,4 +1,4 @@
-# 📈 Borsa Tahmin ve Portföy Yönetim Sistemi
+# Borsa Tahmin ve Portföy Yönetim Sistemi
 
 Yapay zeka destekli borsa tahmin ve portföy yönetim uygulaması. BIST hisseleri için fiyat tahminleri yapın, teknik analizleri inceleyin ve portföyünüzü profesyonelce yönetin.
 
@@ -98,7 +98,7 @@ http://127.0.0.1:5001
 | purchase_price | REAL    | Alış Fiyatı |
 | purchase_date  | DATE    | Alış Tarihi |
 
-## 🤝 Katkıda Bulunma
+## Katkıda Bulunma
 
 1. Fork edin
 2. Feature branch oluşturun (`git checkout -b yeni-ozellik`)
